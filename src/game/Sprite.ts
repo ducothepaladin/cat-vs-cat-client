@@ -2,7 +2,6 @@ export class Sprite {
   private image: HTMLImageElement;
   private frameWidth: number;
   private frameHeight: number;
-  private totalCols: number;
   private currentFrame: number;
   private tickCount: number = 0;
   private ticksPerFrame: number;
@@ -21,7 +20,6 @@ export class Sprite {
     image: HTMLImageElement,
     frameWidth: number,
     frameHeight: number,
-    totalCols: number,
     rowCount: number,
     col: number,
     row: number,
@@ -32,7 +30,6 @@ export class Sprite {
     this.image = image;
     this.frameWidth = frameWidth;
     this.frameHeight = frameHeight;
-    this.totalCols = totalCols;
     this.col = col;
     this.row = row;
     this.frameCount = frameCount;

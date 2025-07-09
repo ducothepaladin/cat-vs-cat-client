@@ -9,10 +9,6 @@ export class Stats {
     this.critRate = crit;
   }
 
-  buffDmg(amount: number) {}
-
-  nerfDmg(amount: number) {}
-
   damgae(defenderDef: number) {
     let base = Math.floor(this.attack * (100 / (100 + defenderDef)));
 

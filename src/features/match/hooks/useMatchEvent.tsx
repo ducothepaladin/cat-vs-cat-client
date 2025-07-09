@@ -1,7 +1,7 @@
 import { socket } from "@/api/socket";
 import useMatchStore from "@/store/matchStore";
 import useStatsStore from "@/store/statsStore";
-import type { PlayerData, PlayerInput, Position } from "@/types/Match";
+import type { PlayerInput, Position } from "@/types/Match";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 

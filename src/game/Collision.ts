@@ -1,4 +1,4 @@
-import { getGameSizes } from "@/lib/helper/canvas";
+
 
 export class Collision {
   x: number;
