@@ -7,6 +7,7 @@ import useStatsStore from "@/store/statsStore";
 
 function WinningPopUp() {
   const { isWin, reset } = useMatchStore();
+  const { playerStats } = useStatsStore();
   const stats = useStatsStore();
 
   const navigate = useNavigate();
@@ -47,8 +48,7 @@ function WinningPopUp() {
                 </Button>
               </div>
               <div className="absolute bottom-4 left-6 text-left text-sm text-yellow-800 opacity-80">
-                <p className="font-bold">Player: You</p>
-                <p>Health Left: 60%</p>
+                <p>Health Left: {Math.floor((playerStats.health / 1000)*100)}%</p>
               </div>
             </motion.div>
           )}
@@ -77,7 +77,6 @@ function WinningPopUp() {
                 </Button>
               </div>
               <div className="absolute bottom-4 left-6 text-left text-sm text-gray-700 opacity-80">
-                <p className="font-bold">Player: You</p>
                 <p>Health Left: 0%</p>
               </div>
             </motion.div>

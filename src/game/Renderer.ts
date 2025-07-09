@@ -35,58 +35,66 @@ export class Renderer {
     const camX = Math.floor(camera.x);
     const camY = Math.floor(camera.y);
 
+    // Draw background
     this.ctx.save();
     this.ctx.translate(-camX, -camY);
     background.draw(this.ctx);
     this.ctx.restore();
 
+    // Stop if someone died
     const someoneDied = cats.some((cat) => cat.health.isDeath);
-
-    if(someoneDied) {
+    if (someoneDied) {
       this.stop();
     }
 
+    // Update and draw cats
     for (const cat of cats) {
       cat.update();
       cat.drawWithCamera(this.ctx);
     }
 
-    cats.forEach((cat) => {
-      this.ctx.save();
-      this.ctx.translate(-camX, -camY);
-      overlapObject.draw(this.ctx);
-      this.ctx.restore();
+    // Draw foreground (overlapObject) ONCE
+    this.ctx.save();
+    this.ctx.translate(-camX, -camY);
+    overlapObject.draw(this.ctx);
+    this.ctx.restore();
 
+    // Health, hits, camera logic
+    cats.forEach((cat) => {
       if (cat.isPlayer) {
-        const index = cats.findIndex((cat) => !cat.isPlayer);
+        const enemy = cats.find((c) => !c.isPlayer);
+        if (!enemy) return;
 
         const amount = cat.hit(
-          cats[index].x,
-          cats[index].y,
-          cats[index].health,
-          cats[index].stats.defense,
+          enemy.x,
+          enemy.y,
+          enemy.health,
+          enemy.stats.defense,
           cat.isPlayer
         );
-        cat.updateHealth(cats[index].health, amount);
+
+        cat.updateHealth(enemy.health, amount);
         cat.health.draw(this.ctx, cat.x, cat.y, cat.height, {
           x: camera.x,
           y: camera.y,
         });
+
         camera.update(cat, background.image.width, background.image.height);
       } else {
-        const index = cats.findIndex((cat) => cat.isPlayer);
+        const player = cats.find((c) => c.isPlayer);
+        if (!player) return;
 
         cat.hit(
-          cats[index].x,
-          cats[index].y,
-          cats[index].health,
-          cats[index].stats.defense,
+          player.x,
+          player.y,
+          player.health,
+          player.stats.defense,
           cat.isPlayer
         );
 
         if (cat.isAttack) {
           cat.updateHealth(
-            cats[index].health,
+            player.health,
             useStatsStore.getState().playerStats.health
           );
         }
@@ -98,14 +106,11 @@ export class Renderer {
       }
     });
 
+    // Loop
     if (!someoneDied) {
       this.animationId = requestAnimationFrame(() =>
         this.render(background, overlapObject, camera, cats)
       );
-
-      
     }
   }
 }
-
-
