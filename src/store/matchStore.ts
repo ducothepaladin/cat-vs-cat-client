@@ -76,5 +76,6 @@ const useMatchStore = create<MatchStore>()(
 );
 
 export const getSlotId = () => useMatchStore.getState().slotId;
+export const getMatchId = () => useMatchStore.getState().matchId;
 
 export default useMatchStore;

@@ -3,7 +3,7 @@ import type { InputHandler } from "../Input";
 import { GameObject } from "../Object";
 import { Health } from "../value-object/Health";
 import type { PlayerInput, Position } from "@/types/Match";
-import useMatchStore from "@/store/matchStore";
+import useMatchStore, { getMatchId } from "@/store/matchStore";
 import type { Camera } from "../Camera";
 import { Collision, CollisionObjectsSet } from "../Collision";
 import { Sprite } from "../Sprite";
@@ -334,9 +334,9 @@ export class Cat extends GameObject {
       if (isHit) {
         const remoteId =
           useMatchStore.getState().matchSlot[this.remoteIndex].id;
-
+        const matchId = getMatchId();
         const updateHealth = health.tookDamage(damage);
-        isPlayer && socket.emit("hit", { remoteId, updateHealth });
+        isPlayer && socket.emit("hit", { matchId, remoteId, updateHealth });
         amount = updateHealth;
       }
 
