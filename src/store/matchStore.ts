@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { PlayerData, PlayerInput, Position, Slot } from "@/types/Match";
+import type { PlayerInput, Position, Slot } from "@/types/Match";
 
 type MatchStore = {
   matchId: string | null;
@@ -76,5 +76,6 @@ const useMatchStore = create<MatchStore>()(
 );
 
 export const getSlotId = () => useMatchStore.getState().slotId;
+export const getMatchId = () => useMatchStore.getState().matchId;
 
 export default useMatchStore;

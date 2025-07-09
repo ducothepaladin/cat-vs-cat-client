@@ -43,7 +43,7 @@ function FriendList({ matchSlot }: { matchSlot: Slot[]}) {
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter ID"
+          placeholder="Enter email"
         />
         <Button
           onClick={handleAddFriend}
