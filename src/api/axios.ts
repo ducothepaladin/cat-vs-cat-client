@@ -18,7 +18,7 @@ API.interceptors.request.use(
   (config) => {
     const token = getAccessToken();
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers.Authorization = `JWT ${token}`;
     }
     return config;
   },
@@ -40,8 +40,8 @@ API.interceptors.response.use(
         );
         const newAccessToken = res.data.content.accessToken;
         setAccessToken(newAccessToken);
-        API.defaults.headers.Authorization = `Bearer ${newAccessToken}`;
-        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        API.defaults.headers.Authorization = `JWT ${newAccessToken}`;
+        originalRequest.headers.Authorization = `JWT ${newAccessToken}`;
         return API(originalRequest);
       } catch (err) {
         logout();

@@ -3,14 +3,21 @@ import { CircleAlert, User, Crown, Ban, LogOut } from "lucide-react";
 import FriendList from "./FriendList";
 import useMatchStore from "@/store/matchStore";
 import { getUserById } from "../../hooks/useUserQuery";
-import { acceptInvite, bothReady, kicked, playerLeft, useInviteFail } from "../../hooks/useUserEvent";
+import {
+  acceptInvite,
+  bothReady,
+  kicked,
+  playerLeft,
+  useInviteFail,
+} from "../../hooks/useUserEvent";
 import { Badge } from "@/components/ui/badge";
 import useInviteStore from "@/store/inviteStore";
 import { socket } from "@/api/socket";
 import { useMatchStarted } from "../../hooks/useMatchEvent";
 
 function MatchMakingSession() {
-  const { matchSlot, isBothReady, removeSlot, clearSlotId, setBothReady } = useMatchStore();
+  const { matchSlot, isBothReady, removeSlot, clearSlotId, setBothReady } =
+    useMatchStore();
   const { inviteFrom, clearInvite } = useInviteStore();
   const { data: user, isLoading } = getUserById();
 
@@ -32,20 +39,20 @@ function MatchMakingSession() {
     removeSlot(matchSlot[1].id);
     clearInvite();
     clearSlotId();
-    setBothReady(false)
+    setBothReady(false);
   };
 
   const handleLeaveRoom = () => {
-    socket.emit("leave", { hostUserId: inviteFrom});
+    socket.emit("leave", { hostUserId: inviteFrom });
     removeSlot(matchSlot[0].id);
     clearInvite();
     clearSlotId();
     setBothReady(false);
-  }
+  };
 
   const handleStartGame = () => {
-    socket.emit('match_start', {p1: matchSlot[0].id, p2: matchSlot[1].id});
-  }
+    socket.emit("match_start", { p1: matchSlot[0].id, p2: matchSlot[1].id });
+  };
 
   return (
     <div className="h-full w-full min-h-screen flex justify-center items-center">
@@ -65,8 +72,8 @@ function MatchMakingSession() {
               />
               <span className="text-base font-semibold">
                 {matchSlot.length > 0 && matchSlot[0]
-                  ? matchSlot[0].name
-                  : user.name}
+                  ? matchSlot[0]?.name
+                  : user?.name}
               </span>
             </div>
             {matchSlot.length !== 2 ? (
@@ -106,7 +113,7 @@ function MatchMakingSession() {
                   </Button>
                 ) : (
                   <Button
-                  onClick={handleLeaveRoom}
+                    onClick={handleLeaveRoom}
                     variant="ghost"
                     className="absolute bottom-2 right-2 hover:scale-105 active:scale-95"
                   >
